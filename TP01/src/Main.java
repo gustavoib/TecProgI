@@ -1,17 +1,50 @@
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import java.io.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Main {
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        String teste1 = "C:\\Users\\joaog\\IdeaProjects\\TP01\\src\\teste.txt";// caminho do primeiro arquivo
+        String teste2 = "C:\\Users\\joaog\\IdeaProjects\\TP01\\src\\teste2.txt";// caminho do segundo arquivo
+        String output = "C:\\Users\\joaog\\IdeaProjects\\TP01\\src\\saida.txt";// caminho do arquivo de saída
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+        HashMap<String, String> colecao = new HashMap<>();
+        Set<String> set = new HashSet<>();
+
+        try {
+            BufferedReader reader1 = new BufferedReader(new FileReader(teste1));//criando leitor para o arquivo 1
+            BufferedReader reader2 = new BufferedReader(new FileReader(teste2));//criando leitor para o arquivo 2
+            BufferedWriter writer = new BufferedWriter(new FileWriter(output));//criando um "escritor" para o arquivo de saída
+
+            String line;
+            String[] aux1;
+            while ((line = reader1.readLine()) != null) {
+                aux1 = line.split(";");
+                if (!set.contains(aux1[0])) {
+                    set.add(aux1[0]);
+                    writer.write(line + "\n");
+                    colecao.put(aux1[0], aux1[1]);
+                }
+            }
+
+            String line2;
+            String[] aux2;
+            while ((line2 = reader2.readLine()) != null) {
+                aux2 = line2.split(";");
+                if (!colecao.containsKey(aux2[0])) {
+                    writer.write(line2 + "\n");
+                    colecao.put(aux2[0],aux2[1]);
+                }
+            }
+
+            reader1.close();
+            reader2.close();
+            writer.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
